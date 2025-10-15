@@ -1,0 +1,192 @@
+/* ===== VARIÁVEIS SCSS ===== */
+// Cores do tema claro
+$primary-light: #2563eb;
+$secondary-light: #64748b;
+$accent-light: #0ea5e9;
+$background-light: #ffffff;
+$surface-light: #f8fafc;
+$text-primary-light: #1e293b;
+$text-secondary-light: #64748b;
+$border-light: #e2e8f0;
+
+// Cores do tema escuro
+$primary-dark: #3b82f6;
+$secondary-dark: #94a3b8;
+$accent-dark: #38bdf8;
+$background-dark: #0f172a;
+$surface-dark: #1e293b;
+$text-primary-dark: #f1f5f9;
+$text-secondary-dark: #94a3b8;
+$border-dark: #334155;
+
+// Tipografia
+$font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-base: 1rem;
+$font-size-lg: 1.125rem;
+$font-size-xl: 1.25rem;
+$font-size-2xl: 1.5rem;
+$font-size-3xl: 1.875rem;
+$font-size-4xl: 2.25rem;
+$font-size-5xl: 3rem;
+
+// Espaçamento
+$space-1: 0.25rem;
+$space-2: 0.5rem;
+$space-3: 0.75rem;
+$space-4: 1rem;
+$space-5: 1.25rem;
+$space-6: 1.5rem;
+$space-8: 2rem;
+$space-10: 2.5rem;
+$space-12: 3rem;
+$space-16: 4rem;
+$space-20: 5rem;
+
+// Breakpoints
+$mobile: 480px;
+$tablet: 768px;
+$desktop: 1024px;
+$large: 1200px;
+
+/* ===== MIXINS =====  é uma função que insere código css com parâmetros*/
+@mixin theme-colors($primary, $secondary, $accent, $background, $surface, $text-primary, $text-secondary, $border) {
+  --color-primary: #{$primary};
+  --color-secondary: #{$secondary};
+  --color-accent: #{$accent};
+  --color-background: #{$background};
+  --color-surface: #{$surface};
+  --color-text-primary: #{$text-primary};
+  --color-text-secondary: #{$text-secondary};
+  --color-border: #{$border};
+}
+
+@mixin container{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $space-4;
+    @media (min-width: $tablet) {
+        padding: 0 $space-6;
+    }
+
+    @media (min-width: $desktop){
+        padding: 0 $space-8;
+    }
+}
+
+@mixin button-base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: $space-3 $space-6;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+    font-size: $font-size-base;
+}
+
+@mixin card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 1rem; /*Rem Tamanho da fonte do elemento raiz,em:tamanho da fonte
+    do elemento pai*/
+    padding: $space-6;
+    transition:  all 0.3s ease; /*ease: a transição começa lentamente e fica rápido. Ao final,
+    volta a ficar lento */
+    
+    &:hover {
+        transform: translateY(-2px); /*Move o elemento */
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+}
+
+/* === RESET E BASE === */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth; /* movimentos suaves*/
+}
+
+body {
+    font-family: $font-family;
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    //tema claro
+    @include theme-colors($primary-light,$secondary-light, $accent-light,
+    $background-light,$surface-light ,$text-primary-light, $border-light );
+
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+
+    &.dark-mode{
+        @include theme-colors($primary-dark,$secondary-dark,$accent-dark,
+        $background-dark, $text-primary-dark , $text-secondary-dark, $border-dark );
+    }
+}
+
+/* === COMPONENTES REUTILIZÁVEIS ===*/
+.container {
+    @include button-container;
+}
+
+.btn {
+    @include button-base;
+
+    &-primary{
+        background: var(--color-primary);
+        color: white;
+    
+        &:hover {
+            background: var(--color-accent);
+            transform: translateY(-1px);
+        }
+    }
+
+    &-secondary {
+        background:transparent;
+        color: var(--color-primary);
+        border: 2px solid var(--color-primary);
+        &:hover {
+            background: var(--color-primary);
+            color:white;
+        }
+    }
+}
+
+.section-title {
+    font-size: $font-size-3xl;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: $space-12;
+    color: var(--color-text-primary);
+
+    @media (min-width: $tablet){
+        font-size: $font-size-3xl;
+    }
+}
+
+/* ===== HEADER E NAVEGAÇÃO ===== */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--color-border);
+    z-index: 1000;
+    transition: all 0.3s ease;
+
+    .dark-mode & {
+        background: rgba(15,23,42,0.95);
+    }
+}
